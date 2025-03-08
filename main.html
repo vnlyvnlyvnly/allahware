@@ -2,147 +2,282 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vnly's Bio Link</title>
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org//face/minecraftia" type="text/css"/>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+    <title>Bio Link</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            user-select: none;
+            -webkit-user-drag: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
         }
-
+        html, body { 
+            width: 100vw; 
+            height: 100vh; 
+            overflow: hidden; 
+            background-color: #000; 
+            color: #fff; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            transform: scale(1) !important;
+        }
         body {
-            background-color: #121212;
-            font-family: 'Arial', sans-serif;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-            flex-direction: column;
-            text-align: center;
+            zoom: reset; /* Prevent zooming */
         }
-
-        h1 {
-            font-size: 3.5em;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 40px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-family: 'Arial', sans-serif;
+        .container { 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
         }
-
-        .links {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        .enter-btn {
+    padding: 20px 40px;
+    font-size: 2rem;
+    font-weight: 600;
+    border: 2px solid #fff;
+    border-radius: 30px;
+    cursor: pointer;
+    background: transparent;
+    color: #fff;
+    transition: transform 0.2s;
+    font-family: 'MinecraftiaRegular', sans-serif; /* Apply the Minecraftia font */
+}
+        .enter-btn:hover { transform: scale(1.1); }
+        .pill-shape { 
+            display: none; 
+            width: 50vw; 
+            height: 55vh; 
+            border: 2px solid white; 
+            border-radius: 50px; 
+            opacity: 0; 
+            transition: opacity 2s ease-in-out; 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            background: url('https://cdn.discordapp.com/attachments/1303779945725694034/1347800328048742430/tenor.gif?ex=67cd245f&is=67cbd2df&hm=befa8078ebfb6af6680a30cc1f0b5952ffaef7f9f8aa5c0bb5a0df4e045d1c81&') center/cover no-repeat; 
+            z-index: 1; 
         }
-
-        .links a {
-            text-decoration: none;
-            color: #fff;
-            background-color: #333;
-            padding: 18px 30px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: 600;
-            transition: transform 0.3s, background-color 0.3s;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
+        .box-container { 
+            display: flex; 
+            position: absolute; 
+            top: 50%; 
+            right: 10%; 
+            transform: translateY(-50%); 
+            gap: 15px; 
         }
+        .mini-box { 
+    width: 290px; 
+    height: 330px; 
+    background-color: black; 
+    border-radius: 15px; 
+    border: 2px solid white; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    transition: transform 0.2s ease-in-out; 
+}
 
-        .links a:hover {
-            background-color: #444;
-            transform: translateY(-4px);
-            box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.3);
-        }
+.mini-box:hover { 
+    transform: scale(1.1); 
+}
 
-        .discord-icon {
-            margin-top: 50px;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            transition: transform 0.3s, opacity 0.3s;
-            opacity: 0.8;
-        }
+.mini-box img { 
+    width: 90%; 
+    height: auto; 
+    border-radius: 10px; 
+}
 
-        .discord-icon:hover {
-            transform: scale(1.2);
-            opacity: 1;
-        }
+.mini-box p {
+    margin-top: 5px;
+    font-size: 34px;
+    color: white;
+    font-family: 'MinecraftiaRegular', sans-serif; /* Apply the Minecraftia font */
+    font-weight: bold;
+    text-align: center;
+}
 
-        /* Snowfall Effect */
-        .snowflakes {
-            position: absolute;
+
+
+        /* Snow effect */
+        .snow-container {
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
-            z-index: 9999;
+            z-index: 0;
         }
-
-        .snowflake {
+        .floating-image {
             position: absolute;
-            top: -10px;
-            background-color: #fff;
-            border-radius: 50%;
-            width: 10px;
-            height: 10px;
-            animation: snow 10s linear infinite;
+            top: 1%;
+            width: 224px;
+            height: auto;
+            opacity: 1;
+            transition: opacity 3s ease-in-out;
+            animation: fall 5s linear infinite;
+            z-index: -1;
+        }
+        @keyframes fall {
+            from { transform: translateY(0); }
+            to { transform: translateY(100vh); }
+        }
+    </style>
+    <script>
+        let player;
+        let snowEffectStarted = false;
+        let snowImages = [
+            "https://cdn.discordapp.com/attachments/1323074354791055390/1347802527047094333/IMG_4886.png?ex=67cd266b&is=67cbd4eb&hm=1e0a3da22ec126127d2a7a1747a3153aea3600a916c0e81478c76e4f5d478005&",
+            "https://cdn.discordapp.com/attachments/1346332830094856252/1346332900823535666/togif.png?ex=67cd13b9&is=67cbc239&hm=ee90ea2ade523a37775db3c3fc6ce352d39baaade97bd9b30b8dc2f2e5c460dc&",
+            "https://cdn.discordapp.com/attachments/1346332457258975334/1347827620410294302/image.png?ex=67cd3dca&is=67cbec4a&hm=11ce229e6f59a222c52a26f008266818697832f763c7ae13992db319bc125847&",
+            "https://media.discordapp.net/attachments/1346332366624391189/1346332404540903504/Screenshot_90.png?ex=67cd1342&is=67cbc1c2&hm=3e4f236788d0e3eaec633b4aafbf550c6bc1391c96d3f4786f3dcb0ca413ed57&=&format=webp&quality=lossless&width=213&height=257",
+            "https://cdn.discordapp.com/attachments/1346332125586129036/1347827712235933736/image.png?ex=67cd3de0&is=67cbec60&hm=c0bcd4dbc8c03a9e76b0b226f2462769d446ad9f96e1b950c9f787c58493cda2&",
+            "https://cdn.discordapp.com/attachments/1346331513750290433/1347827768871747605/image.png?ex=67cd3ded&is=67cbec6d&hm=aa7499e8bdbde4bf5c4c01f19802fb62007ff289afb4f9886aabf077c6fd0e28&",
+            "https://cdn.discordapp.com/attachments/1346331469701976074/1346355507262390302/image.png?ex=67cd28c7&is=67cbd747&hm=29e424615f2155cfe992c04c11d92333dee544225d539a2aa6cc4dc67a3f3695&",
+            "https://cdn.discordapp.com/attachments/1346331418061443072/1346331449367986176/SPOILER_image.png?ex=67cd125f&is=67cbc0df&hm=f97deab4bae67ae87d157e88e5acb126bdfd6c41a33ac8ed8ac6c189aeb36faf&",
+            "https://cdn.discordapp.com/attachments/1346331330769584259/1346331344380104766/IMG_1108.png?ex=67cd1246&is=67cbc0c6&hm=95390622f78cabb506edb5fd6a100d6a78aad6ad3f2b9322f81c930f7caeb3ae&",
+            "https://cdn.discordapp.com/attachments/1346331330769584259/1346331396427354274/image.png?ex=67cd1252&is=67cbc0d2&hm=eb11304271ee90ec978ea9ea278df9f3ac18ddb97915cc17f78affbce3ae1ee8&",
+            "https://cdn.discordapp.com/attachments/1346329145814159440/1347827976858898482/image.png?ex=67cd3e1f&is=67cbec9f&hm=47b42c14d63cbb2d944b021d0883a8cef7eac0287737aa84f8656ccb8585b617&",
+            "https://media.discordapp.net/attachments/1346879054363627632/1346879117706133665/image.png?ex=67cd162d&is=67cbc4ad&hm=a35ea5f4bde40aef617b01707f97132222ff07d10ce63ba10eb144db7bd1bff2&=&format=webp&quality=lossless&width=512&height=512",
+            "https://cdn.discordapp.com/attachments/1346333473262141502/1347828108799115295/image.png?ex=67cd3e3e&is=67cbecbe&hm=b0470b138c0b4fa8e3cdf8d2912d6b02ae809dda5afee9b9fd876a11bf8bccff&",
+            "https://cdn.discordapp.com/attachments/1346314717819572286/1347828177019600989/image.png?ex=67cd3e4e&is=67cbecce&hm=f1adb98ba381bc2e74c5521ed3692d03cd2bdeb1bb6b5879b4e89e0a8aa0d0bf&",
+            "https://cdn.discordapp.com/attachments/1346314717819572286/1346347341115953233/image.png?ex=67cd212c&is=67cbcfac&hm=c49c14e29a361f9866ad627d59343de8fc9a8e4f880491fc301fb0e89fe2ddd4&",
+            "https://cdn.discordapp.com/attachments/1346314717819572286/1346347313798447105/IMG_7674.png?ex=67cd2125&is=67cbcfa5&hm=ae98c0fd5ea140f8c2e810d22bc024821dae86d67e9cb545c3f7e0a64f398136&",
+            "https://media.discordapp.net/attachments/1346314717819572286/1346347167232688210/image.png?ex=67cd2102&is=67cbcf82&hm=ddc531bf8a0bc8edfd74b6632a0678d7771b83989eed058cdc45bfa62aa94893&=&format=webp&quality=lossless&width=420&height=318",
+            "https://cdn.discordapp.com/attachments/1346314717819572286/1346346923656872007/IMG_7347.png?ex=67cd20c8&is=67cbcf48&hm=30396fcd7ddcbbc917b0f888b4c19cfc7f0751a6a1e3d9aadacf72dfb974fc15&",
+            "https://cdn.discordapp.com/attachments/1346332615736557671/1347827570778964038/image.png?ex=67cd3dbe&is=67cbec3e&hm=09f0269f3fd64782cd084c6ff314a07499cc4fe92cb5083ecccede50c6fef253&",
+            "https://cdn.discordapp.com/attachments/1346332733508681739/1346332757697237126/SPOILER_IMG_3360.png?ex=67cd1397&is=67cbc217&hm=ff1dc62fcf09c5cfdcd6a3750f950c87b88e6a23ea3b29d9eba7e846242fc249&",
+            "https://cdn.discordapp.com/attachments/1346355735298310194/1346355744311869540/8F7859F0-D4E2-4C68-AD21-F1D94C470D96.png?ex=67cd28ff&is=67cbd77f&hm=bfd5ae35ceea9d01dcadee0b3f8e831625ad45e81cec1d98ba3437225a8ea4ca&",
+            "https://cdn.discordapp.com/attachments/1346677742682247258/1346677821098954783/remix-d42b0a73-29b0-43d6-adf3-bcce095b9cbf.png?ex=67cd0374&is=67cbb1f4&hm=035cf1d0fecb557c07f2e1e8362b14329d19fd52d59de86982db7071f3e05080&",
+            "https://cdn.discordapp.com/attachments/1347775108814471169/1347827164401107044/image.png?ex=67cd3d5d&is=67cbebdd&hm=c4114a91443c54905e6090b4b0590e1bbbb4242dfca9f1c59cf46c1aebf3a92e&",
+            "https://cdn.discordapp.com/attachments/1347775108814471169/1347826861090013266/IMG_6255.png?ex=67cd3d15&is=67cbeb95&hm=9c771f2b65a367c5a818f9f0d95aad99c19df8c424cd39edd7138968db5d8d15&",
+            "https://cdn.discordapp.com/attachments/1347775108814471169/1347826944124784640/image.png?ex=67cd3d28&is=67cbeba8&hm=21fcc27bc5af79df2d4942aa730efb833153088cff11cec6664a8287879ca652&",
+            "https://cdn.discordapp.com/attachments/1347775108814471169/1347827025800466492/1a79100ec2dcf26b9749e4e6c6eff0c4.png?ex=67cd3d3c&is=67cbebbc&hm=97e58bb3677b5ee25e6658235c4fadcdc5cf59547608b60c64f402d24026d135&",
+            "https://cdn.discordapp.com/attachments/1347775108814471169/1347827031802380370/image.png?ex=67cd3d3d&is=67cbebbd&hm=7fd342dbe67a8bb980315c3cd48ea289fad2bd1c4e94fe6b5330388f5d877402&",
+            "https://cdn.discordapp.com/attachments/1347775108814471169/1347827107715354675/image.png?ex=67cd3d4f&is=67cbebcf&hm=a8bcd6a45a8c732c627796089f8ecb35cc12c239876cad9d89f7c9f470d6585e&",
+            "https://cdn.discordapp.com/attachments/1347775108814471169/1347827056863477790/image.png?ex=67cd3d43&is=67cbebc3&hm=cae27a7c956629356c75a9efcbf9210339c0db19952eff2e0f34389a9709c12b&",
+            "https://cdn.discordapp.com/attachments/1323074354791055390/1347802667346559006/IMG_2388.png?ex=67cd268c&is=67cbd50c&hm=4637011bb7dcf7c9a8000565b230e2c8192cab94468b7503880c2694ec7fb8ca&",
+            "https://cdn.discordapp.com/attachments/1323074354791055390/1347802748233580627/image.png?ex=67cd26a0&is=67cbd520&hm=96bce4043b62fb03ee4deb28ad44f629b056afc1ae7344b96bc9761f38c08a31&",
+            "https://media.discordapp.net/attachments/1313688922051575889/1347760827524190258/image.png?ex=67ccff95&is=67cbae15&hm=d8e091cff01484038b8c252adb9cabdb34f7843e0453463a0df7283a293a2c49&format=webp&quality=lossless&width=858&height=864%27%2C&",
+            "https://cdn.discordapp.com/attachments/1323074354791055390/1347824744812122143/image.png?ex=67cd3b1c&is=67cbe99c&hm=59577cd87fa81dd64d8c01c8a194162b29b8b390af8cb0baba6b3a83d41400c8&",
+            "https://cdn.discordapp.com/attachments/1323074354791055390/1347803572095422585/IMG_0742.png?ex=67cd2764&is=67cbd5e4&hm=66972a51f45f79ab05cb975be17a38b962e10149202df4f4e56f84b0cccbeefa&",
+            "https://cdn.discordapp.com/attachments/1323074354791055390/1347807438056980500/image.png?ex=67cd2afe&is=67cbd97e&hm=ff659d5fffb58c69d82aa86e75facf35589ba8bc580f5c4c5eb10af1f96d0530&"
+        ];
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('hidden-player', {
+                height: '0',
+                width: '0',
+                videoId: '0ZjEoFC13sk',
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'modestbranding': 1,
+                    'playsinline': 1,
+                    'start': 1
+                },
+                events: {
+                    'onReady': function(event) {
+                        event.target.setVolume(1);
+                        event.target.playVideo();
+                    }
+                }
+            });
         }
 
-        @keyframes snow {
-            to {
-                transform: translateY(100vh) translateX(calc(100vw * -1));
+        function startJourney() {
+            document.querySelector('.enter-btn').style.opacity = '0';
+            setTimeout(() => document.querySelector('.enter-btn').style.display = 'none', 1000);
+            let pill = document.querySelector('.pill-shape');
+            pill.style.display = 'flex';
+            setTimeout(() => { pill.style.opacity = '1'; }, 100);
+
+            let tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            document.head.appendChild(tag);
+
+            if (!snowEffectStarted) {
+                snowEffectStarted = true;
+                setInterval(createFloatingImage, 1000);
             }
         }
 
-        /* Animation for snowflakes */
-        .snowflake:nth-child(odd) {
-            animation-duration: 12s;
+
+
+
+
+
+
+
+        
+
+        function createFloatingImage() {
+        let img = document.createElement('img');
+        img.src = snowImages[Math.floor(Math.random() * snowImages.length)];
+        img.className = 'floating-image';
+
+        let leftPosition;
+        do {
+            leftPosition = Math.random() * 100; // Allows full range of top spawn
+        } while (leftPosition > 35 && leftPosition < 65); // Prevents direct overlap with the center box
+
+        img.style.left = leftPosition + 'vw';
+
+        document.querySelector('.snow-container').appendChild(img);
+
+        setTimeout(() => {
+            img.style.opacity = '0';
+            setTimeout(() => img.remove(), 3000);
+        }, 3000);
         }
 
-        .snowflake:nth-child(even) {
-            animation-duration: 15s;
-        }
-    </style>
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey || event.metaKey) {
+                event.preventDefault();
+            }
+        });
+
+        document.addEventListener('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+    </script>
 </head>
 <body>
-    <h1>Welcome to Vnly's Bio Link</h1>
-    <div class="links">
-        <a href="https://your-link-here" target="_blank">Your First Link</a>
-        <a href="https://another-link-here" target="_blank">Your Second Link</a>
-        <a href="https://yet-another-link-here" target="_blank">Your Third Link</a>
+    <div class="container">
+        <button class="enter-btn" onclick="startJourney()">Enter</button>
     </div>
-    <a href="https://discord.com/users/1181891983854288897" target="_blank">
-        <img class="discord-icon" src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Discord_Logo_2023.png" alt="Discord Icon">
-    </a>
-
-    <div class="snowflakes" id="snowflakes"></div>
-
-    <script>
-        // Snowflake Effect
-        const snowflakesContainer = document.getElementById('snowflakes');
-        for (let i = 0; i < 50; i++) {
-            let snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.style.left = `${Math.random() * 100}vw`;
-            snowflake.style.animationDuration = `${Math.random() * 15 + 5}s`; // Random duration
-            snowflakesContainer.appendChild(snowflake);
-        }
-
-        // Mouse-following animation
-        document.addEventListener('mousemove', (event) => {
-            const mouseX = event.clientX;
-            const mouseY = event.clientY;
-            const snowflakes = document.querySelectorAll('.snowflake');
-            snowflakes.forEach(snowflake => {
-                snowflake.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-            });
-        });
-    </script>
+    <div id="hidden-player"></div>
+    <div class="pill-shape">
+        <div class="box-container">
+            <a href="https://discord.com/users/1323074354791055390" target="_blank">
+                <div class="mini-box">
+                    <img src="https://cdn.discordapp.com/avatars/1220061206660907158/6025325f6b10cb67e012b1df04107bbf.webp" alt="Profile">
+                    <p>@brain</p>
+                </div>
+            </a>
+            <a href="https://discord.com/users/1181891983854288897" target="_blank">
+                <div class="mini-box">
+                    <img src="https://cdn.discordapp.com/attachments/1323074354791055390/1347816047679373342/30.png?ex=67cd3302&is=67cbe182&hm=91b8c5669787fe183e047b11b289ea767b395df2ad406787926a8bf5aa4bee40&" alt="VNLY">
+                    <p>@vnly</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="snow-container"></div>
 </body>
 </html>
