@@ -3,21 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello Page</title>
+    <title>Vnly's Bio Link</title>
     <style>
         body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 4em;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #222;
+            padding: 15px 25px;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .links a:hover {
+            background-color: #444;
+            transform: scale(1.1);
+        }
+
+        .discord-icon {
+            margin-top: 50px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .discord-icon:hover {
+            transform: scale(1.2);
+        }
+
+        /* Snowfall Effect */
+        .snowflakes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            background-color: #fff;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            animation: snow 10s linear infinite;
+        }
+
+        @keyframes snow {
+            to {
+                transform: translateY(100vh) translateX(calc(100vw * -1));
+            }
+        }
+
+        /* Animation for snowflakes */
+        .snowflake:nth-child(odd) {
+            animation-duration: 12s;
+        }
+
+        .snowflake:nth-child(even) {
+            animation-duration: 15s;
         }
     </style>
 </head>
 <body>
-    <h1>Hello!</h1>
+    <div class="container">
+        <h1>Welcome to Vnly's Bio Link</h1>
+        <div class="links">
+            <a href="https://your-link-here" target="_blank">Your First Link</a>
+            <a href="https://another-link-here" target="_blank">Your Second Link</a>
+            <a href="https://yet-another-link-here" target="_blank">Your Third Link</a>
+        </div>
+        <a href="https://discord.com/users/1181891983854288897" target="_blank">
+            <img class="discord-icon" src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Discord_Logo_2023.png" alt="Discord Icon">
+        </a>
+    </div>
+
+    <div class="snowflakes" id="snowflakes"></div>
+
+    <script>
+        // Snowflake Effect
+        const snowflakesContainer = document.getElementById('snowflakes');
+        for (let i = 0; i < 50; i++) {
+            let snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.style.left = `${Math.random() * 100}vw`;
+            snowflake.style.animationDuration = `${Math.random() * 15 + 5}s`; // Random duration
+            snowflakesContainer.appendChild(snowflake);
+        }
+
+        // Mouse-following animation
+        document.addEventListener('mousemove', (event) => {
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+            const snowflakes = document.querySelectorAll('.snowflake');
+            snowflakes.forEach(snowflake => {
+                snowflake.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+            });
+        });
+    </script>
 </body>
 </html>
