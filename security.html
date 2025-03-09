@@ -1,1 +1,35 @@
+<script>
+    // Disable Right Click
+    document.addEventListener("contextmenu", event => event.preventDefault());
 
+    // Disable Inspect Element Shortcuts
+    document.addEventListener("keydown", function(event) {
+        if (
+            event.ctrlKey && 
+            (event.key === 's' || event.key === 'u' || event.key === 'i' || event.key === 'j' || event.key === 'p' || event.key === 'h') || 
+            event.key === "F12" || 
+            (event.ctrlKey && event.shiftKey && event.key === 'I')
+        ) {
+            event.preventDefault();
+            playJumpscare();
+        }
+    });
+
+    // Disable Scrolling & Zooming
+    window.addEventListener("wheel", event => event.preventDefault(), { passive: false });
+    window.addEventListener("keydown", function(event) {
+        if (event.ctrlKey && (event.key === '=' || event.key === '-' || event.key === '0')) {
+            event.preventDefault();
+        }
+        if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "PageUp" || event.key === "PageDown") {
+            event.preventDefault();
+        }
+    });
+
+    // Jumpscare Sound
+    function playJumpscare() {
+        let audio = new Audio("https://github.com/vnlyvnlyvnly/allahware/raw/refs/heads/main/Jumpscare_Sound.mp3");
+        audio.volume = 1.0; // Max volume
+        audio.play();
+    }
+</script>
